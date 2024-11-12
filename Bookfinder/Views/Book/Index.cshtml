@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Bookfinder.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="container">
+    <h1>Biblioteca</h1>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class= "@ViewBag.Style" role="alert">
+            @ViewBag.Message
+        </div>
+    }
+    
+
+    <div class="row">
+        @foreach (var book in Model)
+        {
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img src="@book.Cover" class="card-img-top" alt="@book.Title" style="width: 100%; height: 300px; object-fit: fill;" />
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">Autor: @book.Author</p>
+
+                        <div class="d-flex justify-content-between">
+                            @Html.Partial("_DetailButton", $"https://openlibrary.org/{book.Key}")
+
+                            <form method="post" asp-action="Favorite" style="display: inline;">
+                                <input type="hidden" name="bookKey" value="@book.Key" />
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-gem"></i> Favoritar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

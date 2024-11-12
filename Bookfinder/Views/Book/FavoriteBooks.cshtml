@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Bookfinder.Models.Book>
+
+@{
+    ViewData["Title"] = "Livros Favoritados";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">Livros Favoritados</h1>
+    <p class="text-center text-muted">Veja sua coleção de livros favoritos!</p>
+
+    <ul class="list-group">
+        @foreach (var book in Model)
+        {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="@book.Cover" alt="@book.Title" class="img-fluid" style="height: 150px; object-fit: cover;" />
+                    </div>
+                    <div class="col-md-10">
+                        <h5 class="mb-1 text-primary">@book.Title</h5>
+                        <p class="mb-1">Autor: @book.Author</p>
+                        <div class="d-flex justify-content-between">
+                            @Html.Partial("_DetailButton", $"https://openlibrary.org/{book.Key}")
+
+                            <form method="post" asp-action="DeleteFavorite" asp-route-bookKey="@book.Key" class="d-inline">
+                                @Html.Partial("_DeleteButton", book.Key)
+                            </form>
+                        </div>
+                        @Html.Partial("_AddReviewButton", book.Id)
+
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
