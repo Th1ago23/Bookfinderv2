@@ -1,0 +1,67 @@
+﻿/* Resetando margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos globais */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Layout */
+.container {
+    max-width: 600px;
+    margin-top: 50px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulário */
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Botões */
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+/* Links */
+a {
+    color: #007bff;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Mensagens de erro */
+.text-danger {
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+/* Títulos */
+h1 {
+    color: #343a40;
+    font-size: 24px;
+    font-weight: bold;
+}

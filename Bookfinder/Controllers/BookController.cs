@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SeuProjeto.Services;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Bookfinder.Controllers
 {
+    [Authorize]
     public class BookController : Controller
     {
         private readonly MyContext _context;

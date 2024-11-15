@@ -1,22 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Bookfinder.Models;
 
 namespace Bookfinder.Data
 {
-    public class MyContext : DbContext
+    public class MyContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
 
-        // DbSet para Books
         public DbSet<Book> Books { get; set; }
-
-        // DbSet para Users
-        public DbSet<User> Users { get; set; }
-
         public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            // Configuração de Identity para ID do tipo int
+            modelBuilder.Entity<User>()
+                .Property(u => u.Id)
+                .ValueGeneratedOnAdd();
+
             // Configuração do relacionamento de muitos para muitos entre User e Book
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Books)
@@ -33,8 +37,6 @@ namespace Bookfinder.Data
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reviews)
                 .HasForeignKey(r => r.UserId); // Chave estrangeira no Review
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }
