@@ -45,29 +45,25 @@ namespace Bookfinder.Controllers
         {
             if (string.IsNullOrEmpty(bookKey))
             {
-                return BadRequest(); // Trata caso de chave vazia
+                return BadRequest();
             }
 
-            // Verifica se o livro já existe no banco de dados
             var existingBook = await _context.Books
                 .SingleOrDefaultAsync(b => b.Key == bookKey);
 
             if (existingBook == null)
             {
-                // Se o livro não existir, pegue seus detalhes da API
                 var bookDetails = await _service.GetBookDetailsAsync(bookKey);
 
-                // Crie um novo livro com os detalhes
                 var book = new Book
                 {
                     Key = bookKey,
                     Title = bookDetails.Title,
                     Author = bookDetails.Author,
                     Cover = bookDetails.Cover,
-                    IsFavorited = true // Define que o livro está favoritado
+                    IsFavorited = true
                 };
 
-                // Adiciona o livro ao contexto
                 _context.Books.Add(book);
                 await _context.SaveChangesAsync();
 
@@ -80,35 +76,31 @@ namespace Bookfinder.Controllers
                 ViewBag.Style = "alert alert-danger";
             }
 
-            // Obtém a lista de livros da API para mostrar novamente na view
             var books = await _service.GetBooksAsync();
             return View("Index", books);
         }
 
         public async Task<IActionResult> FavoriteBooks()
         {
-            // Obtém todos os livros que estão no banco de dados
             var favoriteBooks = await _context.Books
-                .Where(b => b.IsFavorited) // Filtra livros favoritados
+                .Where(b => b.IsFavorited)
                 .ToListAsync();
 
-            return View(favoriteBooks); // Retorna a view com a lista de livros favoritos
+            return View(favoriteBooks);
         }
 
         public async Task<IActionResult> DeleteFavorite(string bookKey)
         {
             if (string.IsNullOrEmpty(bookKey))
             {
-                return BadRequest(); // Trata caso de chave vazia
+                return BadRequest();
             }
 
-            // Procura o livro na tabela
             var book = await _context.Books
                 .SingleOrDefaultAsync(b => b.Key == bookKey);
 
             if (book != null)
             {
-                // Remove o livro do contexto
                 _context.Books.Remove(book);
                 await _context.SaveChangesAsync();
                 TempData["Message"] = "Livro removido dos favoritos com sucesso!";
@@ -118,11 +110,9 @@ namespace Bookfinder.Controllers
                 TempData["Message"] = "Livro não encontrado nos favoritos.";
             }
 
-            // Redireciona de volta para a lista de livros favoritos
             return RedirectToAction("FavoriteBooks");
         }
 
-        // GET: Formulário para adicionar resenha
         public IActionResult AddReview(int bookId)
         {
             ViewBag.BookId = bookId;
@@ -141,18 +131,18 @@ namespace Bookfinder.Controllers
                 if (!bookExists)
                 {
                     ModelState.AddModelError("", "O livro associado à resenha não existe.");
-                    return View(review); // Retorna à view se o livro não existir
+                    return View(review);
                 }
 
-                review.CreatedAt = DateTime.Now; // Data e hora da criação
+                review.CreatedAt = DateTime.Now;
                 _context.Reviews.Add(review);
                 await _context.SaveChangesAsync();
 
                 TempData["Message"] = "Resenha adicionada com sucesso!";
-                return RedirectToAction("FavoriteBooks"); // Redireciona após adicionar
+                return RedirectToAction("FavoriteBooks");
             }
 
-            return View(review); // Retorna à view em caso de erro no modelo
+            return View(review);
         }
     }
 

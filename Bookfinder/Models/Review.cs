@@ -7,14 +7,14 @@ namespace Bookfinder.Models
         [Key]
         public int Id { get; set; }
 
-        public string Content { get; set; } // Conteúdo da resenha
+        public string Content { get; set; }
 
-        public int BookId { get; set; } // ID do livro associado
-        public virtual Book Book { get; set; } // Relacionamento com Book
+        public int BookId { get; set; }
+        public virtual Book Book { get; set; }
 
-        public int UserId { get; set; } // ID do usuário que escreveu a resenha
-        public virtual User User { get; set; } // Relacionamento com User
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
 
-        public DateTime CreatedAt { get; set; } // Data e hora de criação
+        public DateTime CreatedAt { get; set; }
     }
 }

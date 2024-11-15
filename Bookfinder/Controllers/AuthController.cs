@@ -10,16 +10,15 @@ namespace Bookfinder.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<AuthController> _logger; // Adicionando o ILogger
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger; // Inicializando o logger
+            _logger = logger;
         }
 
-        // Exibir formulário de registro
         public IActionResult Register()
         {
             _logger.LogInformation("Carregando a página de registro.");
@@ -35,7 +34,6 @@ namespace Bookfinder.Controllers
             {
                 _logger.LogInformation("Model válido. Criando o usuário.");
 
-                // Criar um novo usuário
                 var user = new User
                 {
                     UserName = model.Email,
@@ -55,7 +53,6 @@ namespace Bookfinder.Controllers
                 {
                     _logger.LogWarning("Falha ao criar o usuário. Erros: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
 
-                    // Se falhar na criação do usuário, adicionar erros ao modelo
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
@@ -67,10 +64,9 @@ namespace Bookfinder.Controllers
                 _logger.LogWarning("Modelo inválido ao tentar registrar o usuário.");
             }
 
-            return View(model); // Reexibir a view com os erros de validação
+            return View(model);
         }
 
-        // Exibir formulário de login
         public IActionResult Login()
         {
             _logger.LogInformation("Carregando a página de login.");
@@ -92,29 +88,24 @@ namespace Bookfinder.Controllers
                     }
                     else
                     {
-                        // Log de falha ao tentar logar
                         _logger.LogWarning("Falha ao tentar logar o usuário com e-mail: {Email}. Motivo: Credenciais inválidas.", model.Email);
                         ModelState.AddModelError(string.Empty, "Login inválido.");
                     }
                 }
                 else
                 {
-                    // Log de falha quando o e-mail não é encontrado
                     _logger.LogWarning("Falha ao tentar logar. Usuário não encontrado com e-mail: {Email}.", model.Email);
                     ModelState.AddModelError(string.Empty, "Login inválido.");
                 }
             }
             else
             {
-                // Log de erro de validação no formulário
                 _logger.LogWarning("Falha na validação do formulário de login para o e-mail: {Email}.", model.Email);
             }
 
             return View(model);
         }
 
-
-        // Logout
         public async Task<IActionResult> Logout()
         {
             try
@@ -128,7 +119,6 @@ namespace Bookfinder.Controllers
             }
             catch (Exception ex)
             {
-                // Se ocorrer algum erro durante o processo de logout, registramos o erro
                 _logger.LogError(ex, "Erro ao tentar realizar logout para o usuário {UserName}.", User.Identity.Name);
                 return RedirectToAction("Error", "Home");
             }

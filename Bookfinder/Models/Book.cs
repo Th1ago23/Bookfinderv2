@@ -13,9 +13,8 @@ namespace Bookfinder.Models
         public string Author { get; set; }
         public string Key { get; set; }
         public string? Cover { get; set; }
-        public bool IsFavorited { get; set; } // Para marcar se o livro está favoritado
+        public bool IsFavorited { get; set; }
 
-        // Nova coleção para relacionamento n:n com User
         public virtual ICollection<User> Users { get; set; } = new List<User>();
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
