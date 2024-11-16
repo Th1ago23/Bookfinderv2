@@ -26,7 +26,9 @@
                                 @Html.Partial("_DeleteButton", book.Key)
                             </form>
                         </div>
-                        @Html.Partial("_AddReviewButton", book.Id)
+                        <a asp-controller="Review" asp-action="Index" asp-route-bookId="@book.Id" class="btn btn-success  mt-2">
+                            <i class="fas fa-pencil-alt"></i> Escrever Resenha
+                        </a>
 
                     </div>
                 </div>

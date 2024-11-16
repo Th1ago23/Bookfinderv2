@@ -8,10 +8,10 @@ namespace Bookfinder.Models
     {
         [Key]
         public int Id { get; set; }
-
         public string Title { get; set; }
         public string Author { get; set; }
         public string Key { get; set; }
+        public string UserId { get; set; }
         public string? Cover { get; set; }
         public bool IsFavorited { get; set; }
 

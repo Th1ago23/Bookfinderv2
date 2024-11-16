@@ -3,8 +3,10 @@ using Bookfinder.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SeuProjeto.Services;
+using Bookfinder.Service;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Bookfinder.Service;
 
 
 namespace Bookfinder.Controllers
@@ -43,13 +45,18 @@ namespace Bookfinder.Controllers
 
         public async Task<IActionResult> Favorite(string bookKey)
         {
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (string.IsNullOrEmpty(bookKey))
             {
                 return BadRequest();
             }
 
             var existingBook = await _context.Books
+                .Where(b => b.UserId == userId)
                 .SingleOrDefaultAsync(b => b.Key == bookKey);
+
 
             if (existingBook == null)
             {
@@ -61,6 +68,7 @@ namespace Bookfinder.Controllers
                     Title = bookDetails.Title,
                     Author = bookDetails.Author,
                     Cover = bookDetails.Cover,
+                    UserId = userId,
                     IsFavorited = true
                 };
 
@@ -82,8 +90,11 @@ namespace Bookfinder.Controllers
 
         public async Task<IActionResult> FavoriteBooks()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var favoriteBooks = await _context.Books
                 .Where(b => b.IsFavorited)
+                .Where(b => b.UserId == userId)
                 .ToListAsync();
 
             return View(favoriteBooks);
@@ -111,38 +122,6 @@ namespace Bookfinder.Controllers
             }
 
             return RedirectToAction("FavoriteBooks");
-        }
-
-        public IActionResult AddReview(int bookId)
-        {
-            ViewBag.BookId = bookId;
-            ViewBag.BookTitle = _context.Books.FirstOrDefault(b => b.Id == bookId)?.Title;
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview(Review review)
-        {
-            if (ModelState.IsValid)
-            {
-                var bookExists = await _context.Books.AnyAsync(b => b.Id == review.BookId);
-                if (!bookExists)
-                {
-                    ModelState.AddModelError("", "O livro associado à resenha não existe.");
-                    return View(review);
-                }
-
-                review.CreatedAt = DateTime.Now;
-                _context.Reviews.Add(review);
-                await _context.SaveChangesAsync();
-
-                TempData["Message"] = "Resenha adicionada com sucesso!";
-                return RedirectToAction("FavoriteBooks");
-            }
-
-            return View(review);
         }
     }
 

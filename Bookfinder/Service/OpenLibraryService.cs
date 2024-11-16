@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SeuProjeto.Services
+namespace Bookfinder.Service
 {
     public class OpenLibraryService
     {

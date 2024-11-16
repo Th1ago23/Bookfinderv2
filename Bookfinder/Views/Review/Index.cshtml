@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Bookfinder.Models.Review>
+
+@{
+    ViewData["Title"] = $"Resenhas de {ViewData["BookTitle"]}";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <p class="text-muted text-center">Leia ou escreva uma resenha sobre este livro.</p>
+
+    <!-- Mensagem de sucesso -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <!-- Formulário para adicionar nova resenha -->
+    <div class="card mb-4">
+        <div class="card-header">Escreva sua resenha</div>
+        <div class="card-body">
+            <form method="post" asp-action="Create" asp-controller="Review">
+                <input type="hidden" name="bookId" value="@ViewData["BookId"]" />
+                <div class="form-group">
+                    <textarea name="content" class="form-control" rows="4" placeholder="Escreva sua resenha aqui..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Enviar Resenha</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de resenhas -->
+    <ul class="list-group">
+        @foreach (var review in Model)
+        {
+            <li class="list-group-item">
+                <h5 class="text-primary">@review.User.Name</h5>
+                <p>@review.Content</p>
+                <small class="text-muted">Postado em @review.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+            </li>
+        }
+    </ul>
+</div>
