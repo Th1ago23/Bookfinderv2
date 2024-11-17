@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bookfinder.Service
 {
-    public class OpenLibraryService
+    public class OpenLibraryService:InterfaceAPI
     {
         private readonly HttpClient _httpClient;
 
@@ -15,7 +15,7 @@ namespace Bookfinder.Service
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<Book>> GetBooksAsync()
+        public virtual async Task<List<Book>> GetBooksAsync()
         {
             // URL da API
             var url = "https://openlibrary.org/subjects/love.json?limit=15";

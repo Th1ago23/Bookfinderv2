@@ -15,7 +15,7 @@ namespace Bookfinder.Controllers
     public class BookController : Controller
     {
         private readonly MyContext _context;
-        private readonly OpenLibraryService _service;
+        protected internal readonly OpenLibraryService _service;
 
         public BookController(MyContext context)
         {
