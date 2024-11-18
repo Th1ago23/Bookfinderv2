@@ -29,19 +29,6 @@ namespace Bookfinder.Controllers
             return View(books);
         }
 
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var book = await _context.Books.SingleOrDefaultAsync(i => i.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            return View(book);
-        }
 
         public async Task<IActionResult> Favorite(string bookKey)
         {
