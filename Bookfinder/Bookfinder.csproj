@@ -9,9 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
     <Compile Remove="Views\User\**" />
+    <Content Remove="Migrations\**" />
     <Content Remove="Views\User\**" />
+    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="Views\User\**" />
+    <None Remove="Migrations\**" />
     <None Remove="Views\User\**" />
   </ItemGroup>
 
