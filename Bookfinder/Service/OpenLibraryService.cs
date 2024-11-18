@@ -17,7 +17,7 @@ namespace Bookfinder.Service
 
         public virtual async Task<List<Book>> GetBooksAsync()
         {
-            // URL da API
+           
             var url = "https://openlibrary.org/subjects/love.json?limit=15";
             var response = await _httpClient.GetStringAsync(url);
             dynamic result = JsonConvert.DeserializeObject(response);
@@ -41,19 +41,19 @@ namespace Bookfinder.Service
         public async Task<Book> GetBookDetailsAsync(string bookKey)
         {
 
-            // Montando a URL para obter detalhes do livro
-            var url = $"https://openlibrary.org{bookKey}.json"; // Formato da URL para obter os detalhes do livro
+           
+            var url = $"https://openlibrary.org{bookKey}.json";
 
             var response = await _httpClient.GetStringAsync(url);
             dynamic result = JsonConvert.DeserializeObject(response);
 
-            // Criar o objeto Book com os detalhes obtidos da API
+            
             var book = new Book
             {
                 Title = result.title,
-                Author = result.authors[0].name != null && result.authors.Count > 0 ? result.authors[0].name : "Autor desconhecido", // Verifica se existe um autor
+                Author = result.authors[0].name != null && result.authors.Count > 0 ? result.authors[0].name : "Autor desconhecido", 
                 Key = result.key,
-                Cover = $"https://covers.openlibrary.org/b/id/{result.covers[0]}-L.jpg" // Modifica para pegar a URL da imagem
+                Cover = $"https://covers.openlibrary.org/b/id/{result.covers[0]}-L.jpg" 
 
             };
 
