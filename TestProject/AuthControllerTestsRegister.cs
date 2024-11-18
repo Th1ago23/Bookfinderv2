@@ -10,6 +10,7 @@ using Moq;
 using System.Threading.Tasks;
 using Xunit;
 
+namespace TestRegister;
 public class AuthControllerTestsRegister
 {
     private readonly Mock<UserManager<User>> _userManagerMock;

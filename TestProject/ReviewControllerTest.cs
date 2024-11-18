@@ -15,7 +15,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace TestProject
+namespace TestReview
 {
     public class ReviewControllerTests
     {

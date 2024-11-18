@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+namespace TestBookController;
 public class BookControllerTests
 {
     private readonly ServiceProvider _serviceProvider;

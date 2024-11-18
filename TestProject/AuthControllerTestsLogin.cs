@@ -10,6 +10,7 @@ using Moq;
 using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult;  // Alias de IdentitySignInResult
 using MvcSignInResult = Microsoft.AspNetCore.Mvc.SignInResult;
 
+namespace TestLogin;
 public class AuthControllerTestsLogin
 {
     private readonly Mock<UserManager<User>> _userManagerMock;
